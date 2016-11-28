@@ -1,0 +1,15 @@
+
+abstract RoaringContainer
+
+# Constants for containers.
+
+## Array containers.
+const MAX_ARRAY_SIZE = 4096
+const ARRAY_DEFAULT_SIZE = 16
+
+## Bitset containers.
+const BITSET_CONTAINER_SIZE_IN_WORDS = (1 << 16) / 64
+
+# Container type definitions and methods.
+include("array_container.jl")
+include("bitset_container.jl")

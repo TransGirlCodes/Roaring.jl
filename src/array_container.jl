@@ -1,9 +1,4 @@
 
-const MAX_ARRAY_SIZE = 4096
-const ARRAY_DEFAULT_SIZE = 16
-
-abstract RoaringContainer
-
 type ArrayContainer <: RoaringContainer
     card::UInt
     cap::UInt
@@ -40,8 +35,10 @@ end
         savings = cp - cd
         capacity!(x, cd)
         resize!(x.arr, cd)
-        return savings
+    else
+        savings = UInt(0)
     end
+    return savings
 end
 
 @inline function growth_capacity(c::Integer)
@@ -68,4 +65,5 @@ function grow!(x::ArrayContainer, min::Integer, max::Integer, preserve::Bool)
     else
         x.arr = Vector{UInt16}(ncap)
     end
+    return x
 end
