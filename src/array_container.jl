@@ -1,6 +1,6 @@
 
 const MAX_ARRAY_SIZE = 4096
-const ARRAY_DEFAULT_SIZE = Int32(16)
+const ARRAY_DEFAULT_SIZE = 16
 
 abstract RoaringContainer
 
@@ -10,22 +10,11 @@ type ArrayContainer <: RoaringContainer
     arr::Vector{UInt16}
 end
 
-function ArrayContainer(size::Integer)
-    a = Vector{UInt16}(size)
-    return ArrayContainer(0, size, a)
-end
+ArrayContainer(size::Integer = ARRAY_DEFAULT_SIZE) = ArrayContainer(0, size, Vector{UInt16}(size))
 
-function ArrayContainer()
-    return ArrayContainer(ARRAY_DEFAULT_SIZE)
-end
+cardinality(x::ArrayContainer) = x.card
 
-@inline function cardinality(x::ArrayContainer)
-    return x.card
-end
-
-@inline function capacity(x::ArrayContainer)
-    return x.cap
-end
+capacity(x::ArrayContainer) = x.cap
 
 @inline function capacity!(x::ArrayContainer, y::Integer)
     x.cap = y
@@ -35,14 +24,14 @@ end
     return ArrayContainer(cardinality(x), capacity(x), copy(x.arr))
 end
 
-@inline function Base.copy(src::ArrayContainer, dst::ArrayContainer)
-    cardi = cardinality(src)
-    if cardinality(dst) > capacity(dst)
-        grow!(dst, cardi, typemax(UInt32), false)
+@inline function Base.copy!(dest::ArrayContainer, source::ArrayContainer)
+    cardi = cardinality(source)
+    if cardinality(dest) > capacity(dest)
+        grow!(dest, cardi, typemax(UInt32), false)
     end
-    cardinality!(dst, cardi)
-    @inbounds for i in 1:length(src.arr)
-        dst.arr[i] = src.arr[i]
+    cardinality!(dest, cardi)
+    @inbounds for i in 1:length(source.arr)
+        dest.arr[i] = sourcerc.arr[i]
     end
 end
 
