@@ -30,9 +30,7 @@ end
         grow!(dest, cardi, typemax(UInt32), false)
     end
     cardinality!(dest, cardi)
-    @inbounds for i in 1:length(source.arr)
-        dest.arr[i] = sourcerc.arr[i]
-    end
+    copy!(dest.arr, 1, source.arr, 1, length(source.arr))
 end
 
 @inline function shrink!(x::ArrayContainer)
