@@ -4,7 +4,7 @@ abstract RoaringContainer
 # Constants for containers.
 
 ## Array containers.
-const MAX_ARRAY_SIZE = 4096
+const ARRAY_DEFAULT_MAX_SIZE = 4096
 const ARRAY_DEFAULT_SIZE = 16
 
 ## Bitset containers.

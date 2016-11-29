@@ -67,3 +67,60 @@ function grow!(x::ArrayContainer, min::Integer, max::Integer, preserve::Bool)
     end
     return x
 end
+
+
+
+#=
+static inline bool array_container_full(const array_container_t *array) {
+    return array->cardinality == array->capacity;
+}
+=#
+isfull(x::ArrayContainer) = cardinality(x) == capacity(x)
+
+#=
+/* Append x to the set. Assumes that the value is larger than any preceding
+ * values.  */
+static void array_container_append(array_container_t *arr, uint16_t pos) {
+    const int32_t capacity = arr->capacity;
+
+    if (array_container_full(arr)) {
+        array_container_grow(arr, capacity + 1, INT32_MAX, true);
+    }
+
+    arr->array[arr->cardinality++] = pos;
+}
+=#
+"""
+    append!(arr::ArrayContainer, pos::UInt16)
+
+Append `pos` to the `ArrayContainer` `arr`, this assumes that the value being
+appended is larger than any value currently in the container.
+"""
+function append!(arr::ArrayContainer, pos::UInt16)
+    cap = capacity(arr)
+    if isfull(arr)
+        grow!(arr, cap + 1, typemax(Int32), true)
+    end
+    arr.card += 1
+    arr.arr[arr.card] = pos
+end
+
+
+#=
+Add all the values in [min,max) (included) at a distance k*step from min.
+The container must have a size less or equal to ARRAY_DEFAULT_MAX_SIZE
+after this addition.
+
+void array_container_add_from_range(array_container_t *arr, uint32_t min,
+                                    uint32_t max, uint16_t step) {
+    for (uint32_t value = min; value < max; value += step) {
+        array_container_append(arr, value);
+    }
+}
+=#
+function insert!{T<:Unsigned}(container::ArrayContainer, r::UnitRange{T})
+    for i in r
+
+    end
+    return container
+end
