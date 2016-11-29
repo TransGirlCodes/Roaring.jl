@@ -68,14 +68,15 @@ function grow!(x::ArrayContainer, min::Integer, max::Integer, preserve::Bool)
     return x
 end
 
-
-
-#=
-static inline bool array_container_full(const array_container_t *array) {
-    return array->cardinality == array->capacity;
-}
-=#
+"Test that the `ArrayContainer` `x` is full."
 isfull(x::ArrayContainer) = cardinality(x) == capacity(x)
+
+"Test that the `ArrayContainer` `x` is empty."
+isempty(x::ArrayContainer) = cardinality(x) == 0
+
+
+
+
 
 #=
 /* Append x to the set. Assumes that the value is larger than any preceding
