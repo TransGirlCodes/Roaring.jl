@@ -119,9 +119,27 @@ void array_container_add_from_range(array_container_t *arr, uint32_t min,
     }
 }
 =#
-function insert!{T<:Unsigned}(container::ArrayContainer, r::UnitRange{T})
+function add!{T<:Unsigned}(container::ArrayContainer, r::UnitRange{T})
     for i in r
-
+        append!(container, value)
     end
     return container
+end
+
+"""
+Add `value` to an ArrayContainer. Returns true if `value` was not already
+present.
+"""
+function add!{T<:Unsigned}(container::ArrayContainer, value::T)
+    insertpoint = searchsorted(container.arr, value)
+    notpresent = isempty(insertpoint)
+    if notpresent
+        splice!(container.arr, insertpoint, value)
+        container.card += 1
+    end
+    return notpresent
+end
+
+function isequal(a::ArrayContainer, b::ArrayContainer)
+    return (cardinality(a) == cardinality(b)) && (a.arr == b.arr)
 end
