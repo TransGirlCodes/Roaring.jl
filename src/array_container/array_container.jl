@@ -52,9 +52,6 @@ end
 #"Test that the `ArrayContainer` `x` is full."
 #isfull(x::ArrayContainer) = cardinality(x) == capacity(x)
 
-#"Test that the `ArrayContainer` `x` is empty."
-#isempty(x::ArrayContainer) = cardinality(x) == 0
-
 #capacity(x::ArrayContainer) = x.cap
 
 #@inline function capacity!(x::ArrayContainer, y::Integer)

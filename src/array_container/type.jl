@@ -22,3 +22,6 @@ end
 @inline function isequal(a::ArrayContainer, b::ArrayContainer)
     return (cardinality(a) == cardinality(b)) && (a.arr == b.arr)
 end
+
+"Test that the `ArrayContainer` `x` is empty."
+isempty(x::ArrayContainer) = cardinality(x) == 0
