@@ -6,11 +6,10 @@ present.
 """
 @inline function add!{T<:Unsigned}(container::ArrayContainer, value::T)
     insertpoint = searchsorted(container.arr, value)
-    notpresent = isempty(insertpoint)
-    if notpresent
-        splice!(container.arr, insertpoint, value)
-    end
-    return notpresent
+    # splice! won't do anything if the array already has the value (insertpoint)
+    # has a length of 1.
+    splice!(container.arr, insertpoint, value)
+    return isempty(insertpoint)
 end
 
 """
@@ -35,9 +34,12 @@ end
 "Remove `value` from an ArrayContainer. Returns true if `value` was present."
 @inline function remove!{T<:Unsigned}(container::ArrayContainer, value::T)
     rempoint = searchsorted(container.arr, value)
-    present = !isempty(rempoint)
-    if present
-        deleteat!(container.arr, rempoint)
-    end
-    return present
+    # deleteat! won't do anything if rempoint is empty.
+    deleteat!(container.arr, rempoint)
+    return !isempty(rempoint)
+end
+
+"Clear all values from an ArrayContainer"
+@inline function clear!(container::ArrayContainer)
+    container.arr = Vector{UInt16}()
 end
