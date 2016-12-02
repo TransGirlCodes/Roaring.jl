@@ -1,15 +1,4 @@
 
-"""
-Add all the values in a given `UnitRange` `range` to an `ArrayContainer`.
-The container must have a size less or equal to ARRAY_DEFAULT_MAX_SIZE
-after this addition.
-"""
-@inline function add!{T<:Unsigned}(container::ArrayContainer, range::UnitRange{T})
-    for value in range
-        add!(container, value)
-    end
-    return container
-end
 
 """
 Add `value` to an ArrayContainer. Returns true if `value` was not already
@@ -20,9 +9,17 @@ present.
     notpresent = isempty(insertpoint)
     if notpresent
         splice!(container.arr, insertpoint, value)
-        #container.card += 1
     end
     return notpresent
+end
+
+"""
+Add a number of values to an `ArrayContainer`.
+"""
+@inline function add!{T<:AbstractArray{UInt16,1}}(container::ArrayContainer, values::T)
+    for value in range
+        add!(container, value)
+    end
 end
 
 """
@@ -41,7 +38,6 @@ end
     present = !isempty(rempoint)
     if present
         deleteat!(container.arr, rempoint)
-        #container.card -= 1
     end
     return present
 end
