@@ -12,7 +12,7 @@ end
 """
 Add a number of values to an `ArrayContainer`.
 """
-@inline function add!{T<:AbstractArray{UInt16,1}}(arr::ArrayContainer, vals::T)
+@inline function add!{T<:Unsigned}(arr::ArrayContainer, vals::AbstractVector{T})
     for val in vals
         add!(arr, val)
     end
@@ -21,11 +21,11 @@ end
 """
     append!(arr::ArrayContainer, pos::UInt16)
 
-Append `value` to the `ArrayContainer` `arr`, this assumes that the value being
+Append `val` to the `ArrayContainer` `arr`, this assumes that the value being
 appended is larger than any value currently in the container.
 """
-@inline function append!{T<:Unsigned}(container::ArrayContainer, value::T)
-    push!(container.arr, value)
+@inline function append!{T<:Unsigned}(container::ArrayContainer, val::T)
+    push!(container.arr, val)
 end
 
 "Remove `val` from an ArrayContainer. Returns true if `val` was present."
