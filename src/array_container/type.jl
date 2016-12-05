@@ -60,3 +60,15 @@ Otherwise, it returns false and update start_rank.
         return (true, startrank, x.arr[(rank - startrank) + 1])
     end
 end
+
+"Compute the number of runs."
+function nruns(x::ArrayContainer)
+    nruns = 0
+    # UInt16 conversions to ensure type stability in loop body.
+    previous = UInt16(-2)
+    for i in x.arr
+        nruns += ifelse(i != (previous + UInt16(1)), 1, 0)
+        previous = i
+    end
+    return nruns
+end
