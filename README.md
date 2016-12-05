@@ -8,7 +8,7 @@
 
 ## Badges
 
-[![Join the chat at https://gitter.im/Ward9250/Roaring.jl](https://badges.gitter.im/Ward9250/Roaring.jl.svg)](https://gitter.im/Ward9250/Roaring.jl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+Get help: [![Join the chat at https://gitter.im/Ward9250/Roaring.jl](https://badges.gitter.im/Ward9250/Roaring.jl.svg)](https://gitter.im/Ward9250/Roaring.jl?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Documentation
 
