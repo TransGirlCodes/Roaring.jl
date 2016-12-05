@@ -1,23 +1,20 @@
 
 
 """
-Add `value` to an ArrayContainer. Returns true if `value` was not already
+Add `val` to an ArrayContainer. Returns true if `value` was not already
 present.
 """
-@inline function add!{T<:Unsigned}(container::ArrayContainer, value::T)
-    insertpoint = searchsorted(container.arr, value)
-    # splice! won't do anything if the array already has the value (insertpoint)
-    # has a length of 1.
-    splice!(container.arr, insertpoint, value)
-    return isempty(insertpoint)
+@inline function add!{T<:Unsigned}(arr::ArrayContainer, val::T)
+    inpoint = searchsorted(arr.arr, val)
+    return isempty(inpoint) ? (splice!(arr.arr, inpoint, val); true) : false
 end
 
 """
 Add a number of values to an `ArrayContainer`.
 """
-@inline function add!{T<:AbstractArray{UInt16,1}}(container::ArrayContainer, values::T)
-    for value in range
-        add!(container, value)
+@inline function add!{T<:AbstractArray{UInt16,1}}(arr::ArrayContainer, vals::T)
+    for val in vals
+        add!(arr, val)
     end
 end
 
@@ -31,12 +28,10 @@ appended is larger than any value currently in the container.
     push!(container.arr, value)
 end
 
-"Remove `value` from an ArrayContainer. Returns true if `value` was present."
-@inline function remove!{T<:Unsigned}(container::ArrayContainer, value::T)
-    rempoint = searchsorted(container.arr, value)
-    # deleteat! won't do anything if rempoint is empty.
-    deleteat!(container.arr, rempoint)
-    return !isempty(rempoint)
+"Remove `val` from an ArrayContainer. Returns true if `val` was present."
+@inline function remove!{T<:Unsigned}(arr::ArrayContainer, val::T)
+    rempoint = searchsorted(arr.arr, val)
+    return isempty(rempoint) ? false : (deleteat!(arr.arr, rempoint); true)
 end
 
 "Clear all values from an ArrayContainer"
